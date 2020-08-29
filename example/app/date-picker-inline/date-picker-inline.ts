@@ -51,10 +51,10 @@ export class DatePickerInline implements OnInit {
     let d: Date = new Date();
     d.setMonth(d.getMonth() - 1);
     this.model = {
-      isRange: false, 
+      isRange: false,
       singleDate: {
         date: {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()}
-      }, 
+      },
       dateRange: null};
   }
 
@@ -66,7 +66,7 @@ export class DatePickerInline implements OnInit {
     this.model = {isRange: true, singleDate: null, dateRange: {
       beginDate: {year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate()},
       endDate: {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()}
-    }}; 
+    }};
   }
 
   onYesterdayPlus3(): void {
@@ -75,16 +75,15 @@ export class DatePickerInline implements OnInit {
 
     let date: Date = new Date();
     date.setDate(date.getDate() + 2);
-    
+
     this.model = {isRange: true, singleDate: null, dateRange: {
       beginDate: {year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate()},
       endDate: {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()}
-    }}; 
+    }};
   }
 
   // callbacks
   onDateChanged(event: IMyDateModel): void {
-    console.log('onDateChanged(): ', event);
     if (!event.isRange) {
       let {date, jsDate, formatted, epoc} = event.singleDate;
       if (formatted !== '') {

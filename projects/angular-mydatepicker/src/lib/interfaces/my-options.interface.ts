@@ -18,6 +18,7 @@ export interface IMyOptions {
   monthLabels?: IMyMonthLabels;
   dateFormat?: string;
   defaultView?: DefaultView;
+  lockView?: DefaultView;
   firstDayOfWeek?: string;
   satHighlight?: boolean;
   sunHighlight?: boolean;
