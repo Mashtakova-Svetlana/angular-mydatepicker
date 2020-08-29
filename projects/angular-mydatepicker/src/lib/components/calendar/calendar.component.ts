@@ -320,7 +320,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     this.generateCalendar(cell.nbr, year, monthChange);
 
     if (lockView === DefaultView.Month) {
-      this.selectedDate = { year, month: cell.nbr, day: 0 };
+      this.selectedDate = { year, month: cell.nbr, day: 1 };
       const {dateFormat, monthLabels, dateRangeDatesDelimiter, closeSelectorOnDateSelect} = this.opts;
       this.generateMonths();
       this.dateChanged(this.utilService.getDateModel(this.selectedDate, null, dateFormat, monthLabels, dateRangeDatesDelimiter), closeSelectorOnDateSelect);
@@ -364,15 +364,25 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   onYearCellClicked(cell: IMyCalendarYear): void {
     this.viewChanged = true;
 
+    const { lockView } = this.opts;
     const {year, monthNbr, monthTxt} = this.visibleMonth;
     const yc: boolean = cell.year !== year;
     this.visibleMonth = {monthTxt, monthNbr, year: cell.year};
     this.selectedMonth.year = cell.year;
     // TODO: uncomment if need to go to dates view after year selected
     // this.generateCalendar(monthNbr, cell.year, yc);
-    this.generateMonths();
-    this.selectYear = false;
-    this.selectMonth = true;
+
+    if (lockView === DefaultView.Year) {
+      this.selectedDate = { year: cell.year, month: 1, day: 1 };
+      this.generateYears(cell.year);
+      const {dateFormat, monthLabels, dateRangeDatesDelimiter, closeSelectorOnDateSelect} = this.opts;
+      const date = this.utilService.myDateToJsDate(this.selectedDate)
+      this.dateChanged(this.utilService.getDateModel(this.selectedDate, null, dateFormat, monthLabels, dateRangeDatesDelimiter), closeSelectorOnDateSelect);
+    } else {
+      this.generateMonths();
+      this.selectYear = false;
+      this.selectMonth = true;
+    }
     this.focusToSelector();
   }
 
@@ -443,10 +453,12 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
 
       for (let j = i; j < i + 5; j++) {
         const disabled: boolean = this.utilService.isDisabledYear(j, this.opts);
+        const marked = this.utilService.isMarkedDate({ day: 0, month: 0, year: j }, this.opts, DefaultView.Year);
         rowData.push({
           year: j,
           currYear: j === today.year,
           selected: j === year,
+          markedYear: marked,
           disabled,
           row,
           col: rtl ? col-- : col++

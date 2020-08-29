@@ -41,6 +41,7 @@ export interface IMyOptions {
   enableDates?: Array<IMyDate>;
   markDates?: Array<IMyMarkedDates>;
   markMonths?: Array<IMyMarkedDates>;
+  markYears?: Array<IMyMarkedDates>;
   markWeekends?: IMyMarkedDate;
   alignSelectorRight?: boolean;
   openSelectorTopOfInput?: boolean;

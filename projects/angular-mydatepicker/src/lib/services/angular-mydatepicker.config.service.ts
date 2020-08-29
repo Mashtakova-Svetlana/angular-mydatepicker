@@ -35,6 +35,7 @@ export class DefaultConfigService {
     enableDates: [],
     markDates: [],
     markMonths: [],
+    markYears: [],
     markWeekends: {marked: false, color: ""},
     alignSelectorRight: false,
     openSelectorTopOfInput: false,

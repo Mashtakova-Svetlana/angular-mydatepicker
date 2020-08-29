@@ -1,3 +1,4 @@
+import { DatePickerYear } from './date-picker-year/date-picker-year.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +13,7 @@ import {DatePickerMonth} from "./date-picker-month/date-picker-month.component";
 
 @NgModule({
   declarations: [
-    AppComponent, DatePickerNgmodel, DatePickerReactiveForms, DatePickerDivHostElement, DatePickerInline, DatePickerMonth,
+    AppComponent, DatePickerNgmodel, DatePickerReactiveForms, DatePickerDivHostElement, DatePickerInline, DatePickerMonth, DatePickerYear,
   ],
   imports: [
     BrowserModule, ReactiveFormsModule, FormsModule, AngularMyDatePickerModule
