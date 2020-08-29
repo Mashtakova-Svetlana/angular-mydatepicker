@@ -1,14 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, Output, ViewEncapsulation, SimpleChanges} from "@angular/core";
-import {IMyMonth} from "../../interfaces/my-month.interface";
-import {IMyOptions} from "../../interfaces/my-options.interface";
-import {OPTS, YEARS_DURATION, VISIBLE_MONTH, SELECT_MONTH, SELECT_YEAR, PREV_VIEW_DISABLED, NEXT_VIEW_DISABLED} from "../../constants/constants"
+import { Component, EventEmitter, Input, OnInit, OnChanges, Output, SimpleChanges, ViewEncapsulation } from "@angular/core";
+import { NEXT_VIEW_DISABLED, OPTS, PREV_VIEW_DISABLED, SELECT_MONTH, SELECT_YEAR, VISIBLE_MONTH, YEARS_DURATION } from "../../constants/constants";
+import { DefaultView } from '../../enums/default-view.enum';
+import { IMyMonth } from "../../interfaces/my-month.interface";
+import { IMyOptions } from "../../interfaces/my-options.interface";
 
 @Component({
   selector: "lib-selection-bar",
   templateUrl: "./selection-bar.component.html",
   encapsulation: ViewEncapsulation.None
 })
-export class SelectionBarComponent implements OnChanges {
+export class SelectionBarComponent implements OnInit, OnChanges {
   @Input() opts: IMyOptions;
   @Input() yearsDuration: string;
   @Input() visibleMonth: IMyMonth;
@@ -22,7 +23,15 @@ export class SelectionBarComponent implements OnChanges {
   @Output() monthViewBtnClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() yearViewBtnClicked: EventEmitter<void> = new EventEmitter<void>();
 
+  lockMonth: boolean;
+  lockYear: boolean;
+
   constructor() { }
+
+  ngOnInit(): void {
+    this.lockMonth = this.opts.lockView === DefaultView.Month;
+    this.lockYear = this.opts.lockView === DefaultView.Year;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.hasOwnProperty(OPTS)) {
@@ -64,7 +73,9 @@ export class SelectionBarComponent implements OnChanges {
   }
 
   onYearViewBtnClicked(event: any): void {
-    event.stopPropagation();
-    this.yearViewBtnClicked.emit();
+    if (!this.selectYear) {
+      event.stopPropagation();
+      this.yearViewBtnClicked.emit();
+    }
   }
 }

@@ -109,9 +109,9 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
 
   constructor(private elem: ElementRef, private renderer: Renderer2, private cdr: ChangeDetectorRef, private utilService: UtilService) {
     this.clickListener = renderer.listen(elem.nativeElement, CLICK, (event: any) => {
-      if ((this.opts.monthSelector || this.opts.yearSelector) && event.target) {
-        this.resetMonthYearSelect();
-      }
+      // if ((this.opts.monthSelector || this.opts.yearSelector) && event.target) {
+      //   this.resetMonthYearSelect();
+      // }
     });
   }
 
@@ -368,8 +368,11 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     const yc: boolean = cell.year !== year;
     this.visibleMonth = {monthTxt, monthNbr, year: cell.year};
     this.selectedMonth.year = cell.year;
-    this.generateCalendar(monthNbr, cell.year, yc);
+    // TODO: uncomment if need to go to dates view after year selected
+    // this.generateCalendar(monthNbr, cell.year, yc);
+    this.generateMonths();
     this.selectYear = false;
+    this.selectMonth = true;
     this.focusToSelector();
   }
 
