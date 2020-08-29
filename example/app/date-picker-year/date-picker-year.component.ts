@@ -5,42 +5,27 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DefaultView} from "../../../projects/angular-mydatepicker/src/lib/enums/default-view.enum";
 
 @Component({
-  selector: 'date-picker-month',
-  templateUrl: './date-picker-month.component.html',
-  styleUrls: ['./date-picker-month.component.css']
+  selector: 'date-picker-year',
+  templateUrl: './date-picker-year.component.html',
+  styleUrls: ['./date-picker-year.component.css']
 })
-export class DatePickerMonth implements OnInit {
+export class DatePickerYear implements OnInit {
   myForm: FormGroup;
   myDatePickerOptions: IAngularMyDpOptions = {
     dateRange: false,
     inline: true,
     dateFormat: 'dd.mm.yyyy',
-    lockView: DefaultView.Month,
-    markMonths: [
+    lockView: DefaultView.Year,
+    markYears: [
       {
         dates: [
           {
-            year: 2020,
-            month: 1,
-            day: 0,
-          },
-          {
-            year: 2020,
-            month: 2,
-            day: 0,
-          },
-          {
-            year: 2020,
-            month: 3,
-            day: 0,
-          },
-          {
-            year: 2020,
-            month: 4,
+            year: 1997,
+            month: 0,
             day: 0,
           },
         ],
-        color: 'magenta',
+        color: 'cyan',
       }
     ],
   };

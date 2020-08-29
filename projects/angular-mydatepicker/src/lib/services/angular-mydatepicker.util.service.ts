@@ -368,8 +368,9 @@ export class UtilService {
   }
 
   isMarkedDate(date: IMyDate, options: IMyOptions, view: DefaultView = DefaultView.Date): IMyMarkedDate {
-    const {markDates, markMonths, markWeekends} = options;
-    const markList = view === DefaultView.Month ? markMonths : markDates;
+    const {markDates, markMonths, markYears, markWeekends} = options;
+    const markList = view === DefaultView.Month
+      ? markMonths : (view === DefaultView.Year ? markYears : markDates);
 
     for (const md of markList) {
       if (this.dateMatchToDates(date, md.dates)) {
