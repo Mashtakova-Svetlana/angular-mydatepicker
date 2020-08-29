@@ -13,7 +13,8 @@ import {IMyValidateOptions} from "../interfaces/my-validate-options.interface";
 import {IMyOptions} from "../interfaces/my-options.interface";
 import {KeyCode} from "../enums/key-code.enum";
 import {KeyName} from "../enums/key-name.enum";
-import {D, DD, M, MM, MMM, YYYY, SU, MO, TU, WE, TH, FR, SA, ZERO_STR, EMPTY_STR, PIPE} from "../constants/constants";
+import {D, DD, EMPTY_STR, FR, M, MM, MMM, MO, PIPE, SA, SU, TH, TU, WE, YYYY, ZERO_STR} from "../constants/constants";
+import {DefaultView} from "../enums/default-view.enum";
 
 @Injectable()
 export class UtilService {
@@ -105,14 +106,14 @@ export class UtilService {
         if (selectedValue) {
           validateOpts.selectedValue = selectedValue.begin;
         }
-        
+
         const begin: IMyDate = this.isDateValid(beginDate, options, validateOpts);
 
         if (this.isInitializedDate(begin)) {
           if (selectedValue) {
             validateOpts.selectedValue = selectedValue.end;
           }
-          
+
           const end: IMyDate = this.isDateValid(endDate, options, validateOpts);
 
           if (this.isInitializedDate(end) && this.isDateSameOrEarlier(begin, end)) {
@@ -126,7 +127,7 @@ export class UtilService {
 
   getDateValue(dateStr: string, dateFormat: string, delimeters: Array<string>): Array<IMyDateFormat> {
     let del: string = EMPTY_STR;
-    
+
     if (delimeters) {
       for(const d of delimeters) {
         if (del.indexOf(d) === -1) {
@@ -256,7 +257,7 @@ export class UtilService {
 
   dateMatchToDates(date: IMyDate, dates: Array<IMyDate>): boolean {
     for (const d of dates) {
-      if ((d.year === 0 || d.year === date.year) && (d.month === 0 || d.month === date.month) && d.day === date.day) {
+      if ((d.year === 0 || d.year === date.year) && (d.month === 0 || d.month === date.month) && (d.day === 0 || date.day === date.day)) {
         return true;
       }
     }
@@ -345,7 +346,7 @@ export class UtilService {
 
   isDatesEnabled(dateBegin: IMyDate, dateEnd: IMyDate, enableDates: Array<IMyDate>): boolean {
     for(const d of enableDates) {
-      if (this.getTimeInMilliseconds(d) >= this.getTimeInMilliseconds(dateBegin) 
+      if (this.getTimeInMilliseconds(d) >= this.getTimeInMilliseconds(dateBegin)
         && this.getTimeInMilliseconds(d) <= this.getTimeInMilliseconds(dateEnd)) {
           return true;
         }
@@ -358,7 +359,7 @@ export class UtilService {
     const dateMsEnd: number = this.getTimeInMilliseconds(dateEnd);
 
     for (const d of disableDateRanges) {
-      if (this.isInitializedDate(d.begin) && this.isInitializedDate(d.end) 
+      if (this.isInitializedDate(d.begin) && this.isInitializedDate(d.end)
         && dateMsBegin >= this.getTimeInMilliseconds(d.begin) && dateMsEnd <= this.getTimeInMilliseconds(d.end)) {
         return true;
       }
@@ -366,15 +367,16 @@ export class UtilService {
     return false;
   }
 
-  isMarkedDate(date: IMyDate, options: IMyOptions): IMyMarkedDate {
-    const {markDates, markWeekends} = options;
+  isMarkedDate(date: IMyDate, options: IMyOptions, view: DefaultView = DefaultView.Date): IMyMarkedDate {
+    const {markDates, markMonths, markWeekends} = options;
+    const markList = view === DefaultView.Month ? markMonths : markDates;
 
-    for (const md of markDates) {
+    for (const md of markList) {
       if (this.dateMatchToDates(date, md.dates)) {
         return this.getMarkedValue(true, md.color, md.styleClass);
       }
     }
-    if (markWeekends && markWeekends.marked) {
+    if (view === DefaultView.Date && markWeekends && markWeekends.marked) {
       const dayNbr = this.getDayNumber(date);
       if (dayNbr === 0 || dayNbr === 6) {
         return this.getMarkedValue(true, markWeekends.color, EMPTY_STR);

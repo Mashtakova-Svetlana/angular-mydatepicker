@@ -309,6 +309,7 @@
 .myDpDaycell,
 .myDpMonthcell,
 .myDpYearcell {
+  position: relative;
   padding: 4px;
   text-align: center;
   outline: none;
@@ -316,7 +317,6 @@
 
 .myDpDaycell {
   background-color: #fff;
-  position: relative;
 }
 
 .myDpWeekDayTitle {
@@ -348,7 +348,7 @@
 }
 
 .myDpMonthNbr {
-  font-size: 10px; 
+  font-size: 10px;
   display: block;
 }
 
