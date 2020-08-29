@@ -60,6 +60,8 @@ export class DefaultConfigService {
     ariaLabelPrevMonth: "Previous Month",
     ariaLabelNextMonth: "Next Month",
     centerYearView: true,
+    yearsCols: 5,
+    yearsRows: 5,
   };
 
   public getDefaultConfig() {

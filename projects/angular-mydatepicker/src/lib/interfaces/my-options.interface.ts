@@ -66,6 +66,8 @@ export interface IMyOptions {
   ariaLabelPrevMonth?: string;
   ariaLabelNextMonth?: string;
   centerYearView?: boolean; 
+  yearsCols?: number;
+  yearsRows?: number;
 }
 
 export interface IAngularMyDpOptions extends IMyOptions { }
