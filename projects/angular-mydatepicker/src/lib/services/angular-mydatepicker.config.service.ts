@@ -34,6 +34,7 @@ export class DefaultConfigService {
     disableWeekdays: [],
     enableDates: [],
     markDates: [],
+    markMonths: [],
     markWeekends: {marked: false, color: ""},
     alignSelectorRight: false,
     openSelectorTopOfInput: false,

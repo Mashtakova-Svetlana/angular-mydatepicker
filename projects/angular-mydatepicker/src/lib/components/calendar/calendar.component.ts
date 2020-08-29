@@ -346,11 +346,13 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
 
       for (let j = i; j < i + 3; j++) {
         const disabled: boolean = this.utilService.isDisabledMonth(year, j, this.opts);
+        const marked = this.utilService.isMarkedDate({ day: 0, month: j, year }, this.opts, DefaultView.Month);
         rowData.push({
-          nbr: j, 
-          name: monthLabels[j], 
-          currMonth: j === today.month && year === today.year, 
-          selected: j === monthNbr && year === this.selectedMonth.year, 
+          nbr: j,
+          name: monthLabels[j],
+          currMonth: j === today.month && year === today.year,
+          selected: j === monthNbr && year === this.selectedMonth.year,
+          markedMonth: marked,
           disabled,
           row,
           col: rtl ? col-- : col++
