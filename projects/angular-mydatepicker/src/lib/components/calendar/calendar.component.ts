@@ -430,18 +430,19 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     this.setMonthViewHeaderBtnDisabledState(year);
   }
 
-  generateYears(inputYear: number, cols: number = 5, rows: number = 5): void {
+  generateYears(inputYear: number): void {
+    const { yearsCols: cols, yearsRows: rows } = this.opts;
     const {minYear, maxYear, rtl, centerYearView} = this.opts;
-    let y: number = Math.floor(inputYear / 25) * 25;
+    let y: number = Math.floor(inputYear / (cols * rows)) * (cols * rows);
 
     if (centerYearView) {
-      y = inputYear - 12;
+      y = inputYear - Math.floor(rows * cols / 2);
     }
     if (inputYear < minYear) {
       y = minYear;
     }
-    if (inputYear + 25 > maxYear) {
-      y = maxYear - 24;
+    if (inputYear + rows * cols > maxYear) {
+      y = maxYear - (rows * cols - 1);
     }
 
     const {year} = this.visibleMonth;
@@ -450,11 +451,11 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     const today: IMyDate = this.utilService.getToday();
 
     let row: number = 0;
-    for (let i = y; i < y + 25; i += 5) {
+    for (let i = y; i < y + rows * cols; i += cols) {
       const rowData: Array<IMyCalendarYear> = [];
-      let col: number = rtl ? 4 : 0;
+      let col: number = rtl ? cols - 1: 0;
 
-      for (let j = i; j < i + 5; j++) {
+      for (let j = i; j < i + cols; j++) {
         const disabled: boolean = this.utilService.isDisabledYear(j, this.opts);
         const marked = this.utilService.isMarkedDate({ day: 0, month: 0, year: j }, this.opts, DefaultView.Year);
         rowData.push({
@@ -514,7 +515,8 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
       this.generateMonths();
     }
     else if (this.selectYear) {
-      this.generateYears(this.getYearValueByRowAndCol(2, 2) - 25);
+      const { yearsRows, yearsCols } = this.opts;
+      this.generateYears(this.getYearValueByRowAndCol(2, 2) - yearsRows * yearsCols);
     }
   }
 
@@ -527,7 +529,8 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
       this.generateMonths();
     }
     else if (this.selectYear) {
-      this.generateYears(this.getYearValueByRowAndCol(2, 2) + 25);
+      const { yearsRows, yearsCols } = this.opts;
+      this.generateYears(this.getYearValueByRowAndCol(2, 2) + yearsRows * yearsCols);
     }
   }
 

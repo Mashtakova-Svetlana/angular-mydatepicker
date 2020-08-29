@@ -17,6 +17,8 @@ export class DatePickerYear implements OnInit {
     dateFormat: 'dd.mm.yyyy',
     lockView: DefaultView.Year,
     centerYearView: false,
+    yearsRows: 4,
+    yearsCols: 3,
     markYears: [
       {
         dates: [

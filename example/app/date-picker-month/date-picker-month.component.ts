@@ -16,6 +16,8 @@ export class DatePickerMonth implements OnInit {
     inline: true,
     dateFormat: 'dd.mm.yyyy',
     lockView: DefaultView.Month,
+    yearsRows: 4,
+    yearsCols: 3,
     markMonths: [
       {
         dates: [
