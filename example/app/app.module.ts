@@ -8,10 +8,11 @@ import { DatePickerReactiveForms } from './date-picker-reactive-forms';
 import { DatePickerDivHostElement } from './date-picker-div-host-element';
 import { DatePickerInline} from './date-picker-inline';
 import { AngularMyDatePickerModule } from '../../projects/angular-mydatepicker/src/public-api';
+import {DatePickerMonth} from "./date-picker-month/date-picker-month.component";
 
 @NgModule({
   declarations: [
-    AppComponent, DatePickerNgmodel, DatePickerReactiveForms, DatePickerDivHostElement, DatePickerInline
+    AppComponent, DatePickerNgmodel, DatePickerReactiveForms, DatePickerDivHostElement, DatePickerInline, DatePickerMonth,
   ],
   imports: [
     BrowserModule, ReactiveFormsModule, FormsModule, AngularMyDatePickerModule
