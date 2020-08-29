@@ -58,7 +58,8 @@ export class DefaultConfigService {
     stylesData: {selector: "", styles: ""},
     divHostElement: {enabled: false, placeholder: ""},
     ariaLabelPrevMonth: "Previous Month",
-    ariaLabelNextMonth: "Next Month"
+    ariaLabelNextMonth: "Next Month",
+    centerYearView: true,
   };
 
   public getDefaultConfig() {

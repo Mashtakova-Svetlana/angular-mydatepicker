@@ -422,6 +422,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
           col: rtl ? col-- : col++
         });
       }
+
       row++;
       this.months.push(rowData);
     }
@@ -429,14 +430,16 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     this.setMonthViewHeaderBtnDisabledState(year);
   }
 
-  generateYears(inputYear: number): void {
-    const {minYear, maxYear, rtl} = this.opts;
+  generateYears(inputYear: number, cols: number = 5, rows: number = 5): void {
+    const {minYear, maxYear, rtl, centerYearView} = this.opts;
+    let y: number = Math.floor(inputYear / 25) * 25;
 
-    let y: number = inputYear - 12;
+    if (centerYearView) {
+      y = inputYear - 12;
+    }
     if (inputYear < minYear) {
       y = minYear;
     }
-
     if (inputYear + 25 > maxYear) {
       y = maxYear - 24;
     }
