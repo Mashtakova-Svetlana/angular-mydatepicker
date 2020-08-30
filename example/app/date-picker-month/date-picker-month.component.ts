@@ -47,6 +47,9 @@ export class DatePickerMonth implements OnInit {
       lockView: DefaultView.Month,
       yearsRows: 4,
       yearsCols: 3,
+      monthCellLabels: { 
+        1: 'Янв',
+      },
       markMonths: [
         {
           dates: [

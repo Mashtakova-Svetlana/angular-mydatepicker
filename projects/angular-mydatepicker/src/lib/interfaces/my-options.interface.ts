@@ -16,6 +16,7 @@ export interface IMyOptions {
   inline?: boolean;
   dayLabels?: IMyDayLabels;
   monthLabels?: IMyMonthLabels;
+  monthCellLabels?: IMyMonthLabels;
   dateFormat?: string;
   defaultView?: DefaultView;
   lockView?: DefaultView;

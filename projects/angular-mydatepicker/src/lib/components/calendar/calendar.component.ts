@@ -401,7 +401,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     this.months.length = 0;
 
     const {year, monthNbr} = this.visibleMonth;
-    const {rtl, monthLabels} = this.opts;
+    const {rtl, monthLabels, monthCellLabels} = this.opts;
 
     let row: number = 0;
     for (let i = 1; i <= 12; i += 3) {
@@ -413,7 +413,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
         const marked = this.utilService.isMarkedDate({ day: 0, month: j, year }, this.opts, DefaultView.Month);
         rowData.push({
           nbr: j,
-          name: monthLabels[j],
+          name: monthCellLabels[j] || monthLabels[j],
           currMonth: j === today.month && year === today.year,
           selected: j === monthNbr && year === this.selectedMonth.year,
           markedMonth: marked,
