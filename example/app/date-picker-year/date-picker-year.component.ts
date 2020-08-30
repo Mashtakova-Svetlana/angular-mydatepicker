@@ -11,33 +11,14 @@ import {DefaultView} from "../../../projects/angular-mydatepicker/src/lib/enums/
 })
 export class DatePickerYear implements OnInit {
   myForm: FormGroup;
-  myDatePickerOptions: IAngularMyDpOptions = {
-    dateRange: false,
-    inline: true,
-    dateFormat: 'dd.mm.yyyy',
-    lockView: DefaultView.Year,
-    centerYearView: false,
-    yearsRows: 4,
-    yearsCols: 3,
-    markYears: [
-      {
-        dates: [
-          {
-            year: 1997,
-            month: 0,
-            day: 0,
-          },
-        ],
-        color: 'cyan',
-      }
-    ],
-  };
+  options: IAngularMyDpOptions;
 
   constructor(
     private fb: FormBuilder,
   ) {}
 
   ngOnInit() {
+    this.options = this.getDefaultOptions();
     this.initForm();
     this.initSubs();
   }
@@ -53,7 +34,33 @@ export class DatePickerYear implements OnInit {
   }
 
   initSubs(): void {
-    this.myForm.controls.myDate.valueChanges.subscribe(console.log);
+    this.myForm.controls.myDate.valueChanges.subscribe(() => {
+      this.options = this.getDefaultOptions();
+    });
+  }
+
+  private getDefaultOptions(): IAngularMyDpOptions {
+    return {
+      dateRange: false,
+      inline: true,
+      dateFormat: 'dd.mm.yyyy',
+      lockView: DefaultView.Year,
+      centerYearView: false,
+      yearsRows: 4,
+      yearsCols: 3,
+      markYears: [
+        {
+          dates: [
+            {
+              year: 1997,
+              month: 0,
+              day: 0,
+            },
+          ],
+          color: 'cyan',
+        }
+      ],
+    };   
   }
 }
 

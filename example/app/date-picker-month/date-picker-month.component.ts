@@ -11,47 +11,14 @@ import {DefaultView} from "../../../projects/angular-mydatepicker/src/lib/enums/
 })
 export class DatePickerMonth implements OnInit {
   myForm: FormGroup;
-  myDatePickerOptions: IAngularMyDpOptions = {
-    dateRange: false,
-    inline: true,
-    dateFormat: 'dd.mm.yyyy',
-    lockView: DefaultView.Month,
-    yearsRows: 4,
-    yearsCols: 3,
-    markMonths: [
-      {
-        dates: [
-          {
-            year: 2020,
-            month: 1,
-            day: 0,
-          },
-          {
-            year: 2020,
-            month: 2,
-            day: 0,
-          },
-          {
-            year: 2020,
-            month: 3,
-            day: 0,
-          },
-          {
-            year: 2020,
-            month: 4,
-            day: 0,
-          },
-        ],
-        color: 'magenta',
-      }
-    ],
-  };
+  options: IAngularMyDpOptions;
 
   constructor(
     private fb: FormBuilder,
   ) {}
 
   ngOnInit() {
+    this.options = this.getDefaultOptions();
     this.initForm();
     this.initSubs();
   }
@@ -67,7 +34,47 @@ export class DatePickerMonth implements OnInit {
   }
 
   initSubs(): void {
-    this.myForm.controls.myDate.valueChanges.subscribe(console.log);
+    this.myForm.controls.myDate.valueChanges.subscribe(() => {
+      this.options = this.getDefaultOptions();
+    });
+  }
+
+  private getDefaultOptions(): IAngularMyDpOptions {
+    return {
+      dateRange: false,
+      inline: true,
+      dateFormat: 'dd.mm.yyyy',
+      lockView: DefaultView.Month,
+      yearsRows: 4,
+      yearsCols: 3,
+      markMonths: [
+        {
+          dates: [
+            {
+              year: 2020,
+              month: 1,
+              day: 0,
+            },
+            {
+              year: 2020,
+              month: 2,
+              day: 0,
+            },
+            {
+              year: 2020,
+              month: 3,
+              day: 0,
+            },
+            {
+              year: 2020,
+              month: 4,
+              day: 0,
+            },
+          ],
+          color: 'magenta',
+        }
+      ],
+    };
   }
 }
 

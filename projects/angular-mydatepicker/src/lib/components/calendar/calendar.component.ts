@@ -242,10 +242,10 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
 
   setDefaultView(defaultView: DefaultView, lockView?: DefaultView): void {
     if ((lockView && lockView === DefaultView.Month) || (!lockView && defaultView === DefaultView.Month)) {
-      this.monthViewBtnClicked();
+      this.monthViewBtnClicked(lockView === undefined);
     }
     else if ((lockView && lockView === DefaultView.Year) || (!lockView && defaultView === DefaultView.Year)) {
-      this.yearViewBtnClicked();
+      this.yearViewBtnClicked(lockView === undefined);
     }
   }
 
@@ -293,8 +293,8 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     this.monthViewBtnClicked();
   }
 
-  monthViewBtnClicked(): void {
-    this.selectMonth = !this.selectMonth;
+  monthViewBtnClicked(toggle = true): void {
+    this.selectMonth = toggle ? !this.selectMonth : true;
     this.selectYear = false;
 
     this.cdr.detectChanges();
@@ -346,8 +346,8 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     this.yearViewBtnClicked();
   }
 
-  yearViewBtnClicked(): void {
-    this.selectYear = !this.selectYear;
+  yearViewBtnClicked(toggle = true): void {
+    this.selectYear = toggle ? !this.selectYear : true;
     this.selectMonth = false;
 
     this.cdr.detectChanges();
