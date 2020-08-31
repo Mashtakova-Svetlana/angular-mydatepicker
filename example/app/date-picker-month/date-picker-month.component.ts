@@ -75,6 +75,7 @@ export class DatePickerMonth implements OnInit {
             },
           ],
           color: 'magenta',
+          styleClass: 'mark-class',
         }
       ],
     };

@@ -6,7 +6,7 @@
 }">
   <tbody>
     <tr *ngFor="let yr of years">
-      <td id="y_{{y.row}}_{{y.col}}" class="y_{{y.row}}_{{y.col}} myDpYearcell"
+      <td id="y_{{y.row}}_{{y.col}}" class="y_{{y.row}}_{{y.col}} myDpYearcell {{y.markedYear.styleClass}}"
           [ngClass]="{'myDpSelectedYear': y.selected, 'myDpDisabled': y.disabled, 'myDpTableSingleYear': !y.disabled}"
           *ngFor="let y of yr" (click)="onYearCellClicked($event, y)" (keydown)="onYearCellKeyDown($event, y)" [attr.tabindex]="!y.disabled ? 0 : -1">
         <span *ngIf="y.markedYear.marked && y.markedYear.color.length" class="myDpMarkDate" [ngStyle]="{'border-top': '8px solid ' + y.markedYear.color}"></span>

@@ -58,6 +58,7 @@ export class DatePickerYear implements OnInit {
             },
           ],
           color: 'cyan',
+          styleClass: 'mark-class',
         }
       ],
     };   
