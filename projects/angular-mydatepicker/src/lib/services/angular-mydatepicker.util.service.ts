@@ -257,7 +257,7 @@ export class UtilService {
 
   dateMatchToDates(date: IMyDate, dates: Array<IMyDate>): boolean {
     for (const d of dates) {
-      if ((d.year === 0 || d.year === date.year) && (d.month === 0 || d.month === date.month) && (d.day === 0 || date.day === date.day)) {
+      if ((d.year === 0 || d.year === date.year) && (d.month === 0 || d.month === date.month) && (d.day === 0 || d.day === date.day)) {
         return true;
       }
     }
