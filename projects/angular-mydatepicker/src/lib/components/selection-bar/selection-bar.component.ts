@@ -1,3 +1,4 @@
+import { UtilService } from './../../services/angular-mydatepicker.util.service';
 import { Component, EventEmitter, Input, OnInit, OnChanges, Output, SimpleChanges, ViewEncapsulation } from "@angular/core";
 import { NEXT_VIEW_DISABLED, OPTS, PREV_VIEW_DISABLED, SELECT_MONTH, SELECT_YEAR, VISIBLE_MONTH, YEARS_DURATION } from "../../constants/constants";
 import { DefaultView } from '../../enums/default-view.enum';
@@ -26,7 +27,9 @@ export class SelectionBarComponent implements OnInit, OnChanges {
   lockMonth: boolean;
   lockYear: boolean;
 
-  constructor() { }
+  constructor(
+    private utilService: UtilService,
+  ) { }
 
   ngOnInit(): void {
     this.lockMonth = this.opts.lockView === DefaultView.Month;

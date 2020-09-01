@@ -62,6 +62,7 @@ import {
   YEAR_SEPARATOR,
   ZERO_STR
 } from "../../constants/constants";
+import { MinLengthValidator } from '@angular/forms';
 
 @Component({
   selector: "lib-angular-mydatepicker-calendar",
@@ -75,6 +76,8 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   @ViewChild("styleEl") styleEl: ElementRef;
 
   @HostBinding("style.position") position = "static";
+  @HostBinding('class.dpAnimateNext') get animateNext() { return this._animateNext; }
+  @HostBinding('class.dpAnimatePrev') get animatePrev() { return this._animatePrev; }
 
   opts: IMyOptions;
   visibleMonth: IMyMonth = {monthTxt: EMPTY_STR, monthNbr: 0, year: 0};
@@ -83,6 +86,8 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   selectedDateRange: IMyDateRange = {begin: {year: 0, month: 0, day: 0}, end: {year: 0, month: 0, day: 0}};
   weekDays: Array<string> = [];
   dates: Array<IMyWeek> = [];
+  prevDates: Array<IMyWeek> = [];
+  nextDates: Array<IMyWeek> = [];
   months: Array<Array<IMyCalendarMonth>> = [];
   years: Array<Array<IMyCalendarYear>> = [];
   yearsDuration: string = "";
@@ -93,6 +98,9 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   selectYear: boolean = false;
 
   viewChanged: boolean = false;
+
+  _animateNext = false;
+  _animatePrev = false;
 
   dateChanged: (dm: IMyDateModel, close: boolean) => void;
   calendarViewChanged: (cvc: IMyCalendarViewChanged) => void;
@@ -508,7 +516,15 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
 
   onPrevNavigateBtnClicked(): void {
     if (!this.selectMonth && !this.selectYear) {
-      this.setDateViewMonth(false);
+      if (this.opts.monthAnimation) {
+        this._animatePrev = true;
+        setTimeout(() => {
+          this.setDateViewMonth(false);
+          this._animatePrev = false;
+        }, this.utilService.MONTH_ANIMATION_DURATION);
+      } else {
+        this.setDateViewMonth(false);
+      }
     }
     else if (this.selectMonth) {
       this.visibleMonth.year--;
@@ -522,7 +538,15 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
 
   onNextNavigateBtnClicked(): void {
     if (!this.selectMonth && !this.selectYear) {
-      this.setDateViewMonth(true);
+      if (this.opts.monthAnimation) {
+        this._animateNext = true;
+        setTimeout(() => {
+          this.setDateViewMonth(true);
+          this._animateNext = false;
+        }, this.utilService.MONTH_ANIMATION_DURATION);
+      } else {
+        this.setDateViewMonth(true);
+      }
     }
     else if (this.selectMonth) {
       this.visibleMonth.year++;
@@ -746,7 +770,27 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   }
 
   generateCalendar(m: number, y: number, notifyChange: boolean): void {
-    this.dates.length = 0;
+    this.dates = this.generateDates(m, y);
+    if (this.opts.monthAnimation) {
+      const prevMonth = m === 1 ? 12 : m - 1;
+      const prevYear = m === 1 ? Math.min(y - 1, 1) : y;
+      const nextMonth = m === 12 ? 1 : m + 1;
+      const nextYear = m === 12 ? y + 1 : y;
+      this.prevDates = this.generateDates(prevMonth, prevYear);
+      this.nextDates = this.generateDates(nextMonth, nextYear);
+    }
+
+    const dInThisM: number = this.utilService.datesInMonth(m, y);
+    const dInPrevM: number = this.utilService.datesInPrevMonth(m, y);
+    this.setDateViewHeaderBtnDisabledState(m, y);
+    if (notifyChange) {
+      // Notify parent
+      this.calendarViewChanged({year: y, month: m, first: {number: 1, weekday: this.getWeekday({year: y, month: m, day: 1})}, last: {number: dInThisM, weekday: this.getWeekday({year: y, month: m, day: dInThisM})}});
+    }
+  }
+
+  generateDates(m: number, y: number) {
+    const dates = [];
     const today: IMyDate = this.utilService.getToday();
     const monthStart: number = this.monthStartIdx(y, m);
     const dInThisM: number = this.utilService.datesInMonth(m, y);
@@ -819,15 +863,10 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
         }
       }
       const weekNbr: number = showWeekNumbers  && firstDayOfWeek === MO ? this.utilService.getWeekNumber(week[0].dateObj) : 0;
-      this.dates.push({week, weekNbr});
+      dates.push({week, weekNbr});
     }
 
-    this.setDateViewHeaderBtnDisabledState(m, y);
-
-    if (notifyChange) {
-      // Notify parent
-      this.calendarViewChanged({year: y, month: m, first: {number: 1, weekday: this.getWeekday({year: y, month: m, day: 1})}, last: {number: dInThisM, weekday: this.getWeekday({year: y, month: m, day: dInThisM})}});
-    }
+    return dates;
   }
 
   setDateViewHeaderBtnDisabledState(m: number, y: number): void {

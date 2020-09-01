@@ -10,7 +10,8 @@ import {IAngularMyDpOptions, IMyDateModel, AngularMyDatePickerDirective} from '.
 export class DatePickerReactiveForms implements OnInit {
   public myDatePickerOptions: IAngularMyDpOptions = {
     dateRange: false,
-    dateFormat: 'dd.mm.yyyy'
+    dateFormat: 'dd.mm.yyyy',
+    monthAnimation: true,
   };
 
   public disabled: boolean = false;

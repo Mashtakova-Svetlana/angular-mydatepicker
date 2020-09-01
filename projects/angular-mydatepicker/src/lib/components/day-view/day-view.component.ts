@@ -19,6 +19,8 @@ import {OPTS, DATES, WEEK_DAYS, SELECTED_DATE, SELECTED_DATE_RANGE} from "../../
 export class DayViewComponent implements OnChanges, AfterViewInit {
   @Input() opts: IMyOptions;
   @Input() dates: Array<IMyWeek>;
+  @Input() prevDates: Array<IMyWeek>;
+  @Input() nextDates: Array<IMyWeek>;
   @Input() weekDays: Array<string>;
   @Input() selectedDate: IMyDate;
   @Input() selectedDateRange: IMyDateRange;

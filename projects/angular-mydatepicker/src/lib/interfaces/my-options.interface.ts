@@ -60,6 +60,7 @@ export interface IMyOptions {
   todayTxt?: string;
   showFooterToday?: boolean;
   calendarAnimation?: IMyCalendarAnimation;
+  monthAnimation?: boolean;
   viewChangeAnimation?: boolean;
   rtl?: boolean;
   stylesData?: IMyStyles;
