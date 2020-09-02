@@ -18,8 +18,6 @@ import {DefaultView} from "../enums/default-view.enum";
 
 @Injectable()
 export class UtilService {
-  readonly MONTH_ANIMATION_DURATION = 1000;
-
   weekDays: Array<string> = [SU, MO, TU, WE, TH, FR, SA];
 
   isDateValid(dateStr: string, options: IMyOptions, validateOpts: IMyValidateOptions): IMyDate {

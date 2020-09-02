@@ -319,7 +319,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   onMonthCellClicked(cell: IMyCalendarMonth): void {
     this.viewChanged = true;
 
-    const { lockView } = this.opts;
+    const { lockView, emitIncomplete } = this.opts;
     const {year, monthNbr} = this.visibleMonth;
     const monthChange: boolean = cell.nbr !== monthNbr;
     this.visibleMonth = {monthTxt: this.opts.monthLabels[cell.nbr], monthNbr: cell.nbr, year};
@@ -327,12 +327,13 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     this.selectedMonth.monthNbr = monthNbr;
     this.generateCalendar(cell.nbr, year, monthChange);
 
-    if (lockView === DefaultView.Month) {
+    if (lockView === DefaultView.Month || emitIncomplete) {
       this.selectedDate = { year, month: cell.nbr, day: 1 };
       const {dateFormat, monthLabels, dateRangeDatesDelimiter, closeSelectorOnDateSelect} = this.opts;
       this.generateMonths();
       this.dateChanged(this.utilService.getDateModel(this.selectedDate, null, dateFormat, monthLabels, dateRangeDatesDelimiter), closeSelectorOnDateSelect);
-    } else {
+    }
+    if (lockView !== DefaultView.Month) {
       this.selectMonth = false;
     }
 
@@ -372,7 +373,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   onYearCellClicked(cell: IMyCalendarYear): void {
     this.viewChanged = true;
 
-    const { lockView } = this.opts;
+    const { lockView, emitIncomplete } = this.opts;
     const {year, monthNbr, monthTxt} = this.visibleMonth;
     const yc: boolean = cell.year !== year;
     this.visibleMonth = {monthTxt, monthNbr, year: cell.year};
@@ -380,13 +381,14 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     // TODO: uncomment if need to go to dates view after year selected
     // this.generateCalendar(monthNbr, cell.year, yc);
 
-    if (lockView === DefaultView.Year) {
+    if (lockView === DefaultView.Year || emitIncomplete) {
       this.selectedDate = { year: cell.year, month: 1, day: 1 };
       this.generateYears(cell.year);
       const {dateFormat, monthLabels, dateRangeDatesDelimiter, closeSelectorOnDateSelect} = this.opts;
       const date = this.utilService.myDateToJsDate(this.selectedDate)
       this.dateChanged(this.utilService.getDateModel(this.selectedDate, null, dateFormat, monthLabels, dateRangeDatesDelimiter), closeSelectorOnDateSelect);
-    } else {
+    }
+    if (lockView !== DefaultView.Year) {
       this.generateMonths();
       this.selectYear = false;
       this.selectMonth = true;
@@ -516,12 +518,17 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
 
   onPrevNavigateBtnClicked(): void {
     if (!this.selectMonth && !this.selectYear) {
-      if (this.opts.monthAnimation) {
+      const { monthAnimation } = this.opts;
+      if (monthAnimation && (this._animatePrev && this._animateNext)) {
+        return;
+      }
+      if (monthAnimation) {
         this._animatePrev = true;
         setTimeout(() => {
           this.setDateViewMonth(false);
           this._animatePrev = false;
-        }, this.utilService.MONTH_ANIMATION_DURATION);
+          this.cdr.detectChanges();
+        }, monthAnimation);
       } else {
         this.setDateViewMonth(false);
       }
@@ -538,12 +545,17 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
 
   onNextNavigateBtnClicked(): void {
     if (!this.selectMonth && !this.selectYear) {
-      if (this.opts.monthAnimation) {
+      const { monthAnimation } = this.opts;
+      if (monthAnimation && (this._animatePrev && this._animateNext)) {
+        return;
+      }
+      if (monthAnimation) {
         this._animateNext = true;
         setTimeout(() => {
           this.setDateViewMonth(true);
           this._animateNext = false;
-        }, this.utilService.MONTH_ANIMATION_DURATION);
+          this.cdr.detectChanges();
+        }, monthAnimation);
       } else {
         this.setDateViewMonth(true);
       }

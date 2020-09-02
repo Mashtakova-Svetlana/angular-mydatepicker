@@ -15,6 +15,7 @@
     <lib-day-view *ngIf="!selectMonth && !selectYear" [opts]="opts" [dates]="dates" [prevDates]="prevDates" [nextDates]="nextDates" [weekDays]="weekDays"
                     [selectedDate]="selectedDate" [selectedDateRange]="selectedDateRange" [viewChanged]="viewChanged"
                     [ngClass]="{'myDpDayViewAnimated': opts.monthAnimation}"
+                    [style.transition-duration]="opts.monthAnimation && (_animatePrev || _animateNext) ? (opts.monthAnimation + 'ms') : 0"
                     (dayCellClicked)="onDayCellClicked($event)"
                     (dayCellKeyDown)="onDayCellKeyDown($event)"
                     (viewActivated)="onViewActivated($event)"></lib-day-view>

@@ -11,7 +11,10 @@ export class DatePickerReactiveForms implements OnInit {
   public myDatePickerOptions: IAngularMyDpOptions = {
     dateRange: false,
     dateFormat: 'dd.mm.yyyy',
-    monthAnimation: true,
+    monthAnimation: 500,
+    selectorWidth: '224px',
+    selectorHeight: '260px',
+    emitIncomplete: true,
   };
 
   public disabled: boolean = false;
@@ -35,6 +38,8 @@ export class DatePickerReactiveForms implements OnInit {
         Validators.required
       ]   // this example is initialized to specific date
     });
+
+    this.myForm.controls.myDate.valueChanges.subscribe(console.log);
   }
 
   onSubmitReactiveForms(): void {

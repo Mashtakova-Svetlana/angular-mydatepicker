@@ -29,7 +29,7 @@
 }
 
 .myDpSelector {
-  padding: 4px;
+  /* padding: 4px; */
   border: 1px solid #CCC;
   background-color: #FFF;
   border-radius: 4px;
@@ -276,13 +276,6 @@
 .myDpMonthTable.myDpNoFooter tbody tr:nth-child(4) td:last-child,
 .myDpYearTable.myDpNoFooter tbody tr:nth-child(5) td:last-child {
   border-bottom-right-radius: 4px;
-}
-
-.myDpSelectorMonthAnimation .myDpDayViewAnimated {
-  position: relative;
-  left: -256px;
-  display: flex;
-  height: 100%;
 }
 
 .myDpSelectorMonthAnimation .myDpCalTable {
@@ -559,12 +552,22 @@
   content: "\e801";
 }
 
+.myDpDayViewAnimated {
+  position: relative;
+  left: -222px;
+  display: flex;
+  height: 100%;
+  transition: none;
+}
+
 .dpAnimateNext .myDpDayViewAnimated {
-  left: -512px;
-  transition: left 1s ease-in;
+  left: -444px;
+  transition-property: left;
+  transition-timing-function: ease-in;
 }
 
 .dpAnimatePrev .myDpDayViewAnimated {
-  left: 0;
-  transition: left 1s ease-in;
+  left: 2px;
+  transition-property: left;
+  transition-timing-function: ease-in;
 }

@@ -54,7 +54,7 @@ export class DefaultConfigService {
     todayTxt: "",
     showFooterToday: false,
     calendarAnimation: {in: CalAnimation.None, out: CalAnimation.None},
-    monthAnimation: false,
+    monthAnimation: 0,
     viewChangeAnimation: true,
     rtl: false,
     stylesData: {selector: "", styles: ""},
@@ -64,6 +64,7 @@ export class DefaultConfigService {
     centerYearView: true,
     yearsCols: 5,
     yearsRows: 5,
+    emitIncomplete: false,
   };
 
   public getDefaultConfig() {

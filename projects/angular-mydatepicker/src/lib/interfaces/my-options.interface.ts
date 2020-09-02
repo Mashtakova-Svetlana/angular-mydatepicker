@@ -60,7 +60,7 @@ export interface IMyOptions {
   todayTxt?: string;
   showFooterToday?: boolean;
   calendarAnimation?: IMyCalendarAnimation;
-  monthAnimation?: boolean;
+  monthAnimation?: number;
   viewChangeAnimation?: boolean;
   rtl?: boolean;
   stylesData?: IMyStyles;
@@ -70,6 +70,7 @@ export interface IMyOptions {
   centerYearView?: boolean; 
   yearsCols?: number;
   yearsRows?: number;
+  emitIncomplete?: boolean;
 }
 
 export interface IAngularMyDpOptions extends IMyOptions { }
