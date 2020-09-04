@@ -14,7 +14,6 @@ export class DatePickerReactiveForms implements OnInit {
     monthAnimation: 500,
     selectorWidth: '224px',
     selectorHeight: '260px',
-    emitIncomplete: true,
   };
 
   public disabled: boolean = false;
@@ -84,5 +83,13 @@ export class DatePickerReactiveForms implements OnInit {
     } else {
       this.myForm.get('myDate').enable();
     }
+  }
+
+  onMonthChange() {
+    console.log('month changed');
+  }
+
+  onYearChange() {
+    console.log('year changed');
   }
 }

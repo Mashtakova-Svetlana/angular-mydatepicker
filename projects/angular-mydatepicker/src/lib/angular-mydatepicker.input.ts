@@ -47,6 +47,8 @@ export class AngularMyDatePickerDirective implements OnChanges, OnDestroy, Contr
   @Input() defaultMonth: IMyDefaultMonth = {defMonth: EMPTY_STR, overrideSelection: false};
 
   @Output() dateChanged: EventEmitter<IMyDateModel> = new EventEmitter<IMyDateModel>();
+  @Output() monthChanged = new EventEmitter<void>();
+  @Output() yearChanged = new EventEmitter<void>();
   @Output() inputFieldChanged: EventEmitter<IMyInputFieldChanged> = new EventEmitter<IMyInputFieldChanged>();
   @Output() calendarViewChanged: EventEmitter<IMyCalendarViewChanged> = new EventEmitter<IMyCalendarViewChanged>();
   @Output() calendarToggle: EventEmitter<number> = new EventEmitter<number>();
@@ -384,7 +386,13 @@ export class AngularMyDatePickerDirective implements OnChanges, OnDestroy, Contr
         },
         () => {
           this.closeSelector(CalToggle.CloseByEsc);
-        }
+        },
+        () => {
+          this.emitMonthChanged();
+        },
+        () => {
+          this.emitYearChanged();
+        },
       );
       this.emitCalendarToggle(CalToggle.Open);
 
@@ -564,6 +572,14 @@ export class AngularMyDatePickerDirective implements OnChanges, OnDestroy, Contr
   private emitDateChanged(dateModel: IMyDateModel): void {
     this.dateChanged.emit(dateModel);
     this.setSelectedValue(dateModel);
+  }
+
+  private emitMonthChanged(): void {
+    this.monthChanged.emit();
+  }
+
+  private emitYearChanged(): void {
+    this.yearChanged.emit();
   }
 
   private setSelectedValue(dateModel: IMyDateModel): void {

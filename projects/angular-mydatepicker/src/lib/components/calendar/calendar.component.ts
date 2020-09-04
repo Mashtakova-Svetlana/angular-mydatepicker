@@ -103,6 +103,8 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
   _animatePrev = false;
 
   dateChanged: (dm: IMyDateModel, close: boolean) => void;
+  monthChanged: () => void;
+  yearChanged: () => void;
   calendarViewChanged: (cvc: IMyCalendarViewChanged) => void;
   rangeDateSelection: (rds: IMyRangeDateSelection) => void;
   viewActivated: (va: ActiveView) => void;
@@ -145,11 +147,13 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     this.clickListener();
   }
 
-  initializeComponent(opts: IMyOptions, defaultMonth: IMyDefaultMonth, selectedValue: any, inputValue: string, selectorPos: IMySelectorPosition, dc: (dm: IMyDateModel, close: boolean) => void, cvc: (cvc: IMyCalendarViewChanged) => void, rds: (rds: IMyRangeDateSelection) => void, va: (va: ActiveView) => void, cbe: () => void): void {
+  initializeComponent(opts: IMyOptions, defaultMonth: IMyDefaultMonth, selectedValue: any, inputValue: string, selectorPos: IMySelectorPosition, dc: (dm: IMyDateModel, close: boolean) => void, cvc: (cvc: IMyCalendarViewChanged) => void, rds: (rds: IMyRangeDateSelection) => void, va: (va: ActiveView) => void, cbe: () => void, mc: () => void, yc: () => void): void {
     this.opts = opts;
     this.selectorPos = selectorPos;
 
     this.dateChanged = dc;
+    this.monthChanged = mc;
+    this.yearChanged = yc;
     this.calendarViewChanged = cvc;
     this.rangeDateSelection = rds;
     this.viewActivated = va;
@@ -337,6 +341,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
       this.selectMonth = false;
     }
 
+    this.monthChanged();
     this.focusToSelector();
   }
 
@@ -382,10 +387,9 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     // this.generateCalendar(monthNbr, cell.year, yc);
 
     if (lockView === DefaultView.Year || emitIncomplete) {
-      this.selectedDate = { year: cell.year, month: 1, day: 1 };
+      this.selectedDate = { year: cell.year, month: 0, day: 0 };
       this.generateYears(cell.year);
       const {dateFormat, monthLabels, dateRangeDatesDelimiter, closeSelectorOnDateSelect} = this.opts;
-      const date = this.utilService.myDateToJsDate(this.selectedDate)
       this.dateChanged(this.utilService.getDateModel(this.selectedDate, null, dateFormat, monthLabels, dateRangeDatesDelimiter), closeSelectorOnDateSelect);
     }
     if (lockView !== DefaultView.Year) {
@@ -393,6 +397,8 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
       this.selectYear = false;
       this.selectMonth = true;
     }
+
+    this.yearChanged();
     this.focusToSelector();
   }
 
