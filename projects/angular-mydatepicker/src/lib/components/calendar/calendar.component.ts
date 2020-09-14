@@ -489,7 +489,7 @@ export class CalendarComponent implements AfterViewInit, OnDestroy {
     }
 
     const beginYear: number = this.getYearValueByRowAndCol(0, 0);
-    const endYear: number = beginYear + 24;
+    const endYear: number = beginYear + cols * rows - 1;
     this.yearsDuration = (!rtl ? beginYear : endYear) + YEAR_SEPARATOR + (!rtl ? endYear : beginYear);
 
     this.setYearViewHeaderBtnDisabledState(beginYear, endYear);
